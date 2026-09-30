@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="menu">
+        <a class="link" href="index.html">Home</a>
+        <a class="link" href="Galeria.html">Galeria</a>
+        <a class="link" href="chat.html">Chat</a>
+        <a class="link" href="cadastro.html">Cadastro</a>
+        <a class="link" href="login.html">Login</a>
+    </nav>
+
+    <div class="container-chat">
+
+        <h2 id="boasVindas">SEJA BEM-VINDO AO CHAT DO ARTHUR MORGAN!</h2>
+
+        <div id="caixaChat"></div>
+
+        <div id="inputArea">
+            <input type="text" id="mensagem" placeholder="Digite sua mensagem">
+            <button id="btnEnviar">Enviar</button>
+        </div>
+
+    </div>
+
+    <script>
+
+        const usuarioLogado = 'Você:';
+
+        document.querySelector('#boasVindas').textContent =
+            `Olá ${usuarioLogado}, seja bem vindo`;
+
+        const caixaChat = document.querySelector('#caixaChat');
+        const inputMensagem = document.querySelector('#mensagem');
+        const btnEnviar = document.querySelector('#btnEnviar');
+
+        console.log("Chat JS carregou");
+        console.log("Botão enviar:");
+        console.log(btnEnviar);
+
+        const historicoConversa = [];
+
+        function mensagemTela(autor, texto) {
+
+            const textoFinal = document.createElement('p');
+
+            textoFinal.className = 'msg';
+
+            textoFinal.textContent = `${autor}: ${texto}`;
+
+            caixaChat.appendChild(textoFinal);
+        }
+
+        btnEnviar.addEventListener('click', async () => {
+
+            console.log("Clicou no botão enviar");
+
+            const textoMensagem = inputMensagem.value.trim();
+
+            console.log("Mensagem digitada:");
+            console.log(textoMensagem);
+
+            if (!textoMensagem) {
+                console.log("Mensagem vazia.");
+                return;
+            }
+
+            mensagemTela(usuarioLogado, textoMensagem);
+
+            historicoConversa.push({
+                role: "user",
+                content: textoMensagem
+            });
+
+            inputMensagem.value = '';
+
+            btnEnviar.disabled = true;
+
+            try {
+
+                console.log("Vou chamar o servidor...");
+
+                const respostaServidor = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        historico: historicoConversa
+                    })
+                });
+
+                console.log("Servidor respondeu:");
+                console.log(respostaServidor.status);
+
+                const dados = await respostaServidor.json();
+
+                console.log("Dados recebidos:");
+                console.log(dados);
+
+                if (!respostaServidor.ok) {
+
+                    mensagemTela('Sistema', dados.erro);
+
+                    return;
+                }
+
+                mensagemTela('Arthur Morgan', dados.resposta);
+
+            } catch (erro) {
+
+                console.error("ERRO NO FETCH:");
+                console.error(erro);
+
+                mensagemTela(
+                    'Sistema',
+                    'Erro ao conectar com o servidor'
+                );
+
+            } finally {
+
+                btnEnviar.disabled = false;
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
