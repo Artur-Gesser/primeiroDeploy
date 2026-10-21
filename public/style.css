@@ -78,7 +78,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    height:480px;;
+    min-height: 480px;
     justify-content: space-between;
     transition: transform 0.3s ease;
 }
@@ -93,7 +93,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    height: 480px;
+    min-height: 480px;
     justify-content: space-between;
     transition: transform 0.3s ease;
 }
@@ -112,6 +112,7 @@ body {
     box-sizing: border-box;
     width: 100%;
     height: 160px;
+    max-width: 100%;
     object-fit: cover;
     border: 3px solid var(--vermelho);
     border-radius: 12px;
@@ -121,6 +122,7 @@ body {
     box-sizing: border-box;
     width: 100%;
     height: 260px;
+    max-width: 100%;
     object-fit: cover;
     border: 3px solid var(--fundocard);
     border-radius: 12px;
@@ -222,7 +224,8 @@ body {
     padding: 38px 28px;
     border-radius: 100px;
     font-weight: bold;
-    width: 750px;
+    width: min(750px, calc(100% - 32px));
+    box-sizing: border-box;
     font-size: 1.15rem;
     border: 4px solid rgb(141, 141, 141);
     box-shadow: 6px 6px 10px rgba(255, 255, 255, 0.3);
@@ -265,7 +268,7 @@ body {
 
 .secao-perfil {
     display: grid;
-    grid-template-columns: 350px 1fr; 
+    grid-template-columns: minmax(0, 350px) minmax(0, 1fr); 
     gap: 40px; 
     align-items: center; 
     padding: 40px;
@@ -323,6 +326,9 @@ footer {
     max-width: 550px;
     margin: 20px auto;
     height: 75vh;
+    min-height: 420px;
+    max-height: 760px;
+    width: calc(100% - 32px);
     display: flex;
     flex-direction: column;
     background-image: url('./imagens/fundo do chat.jpg');
@@ -601,4 +607,232 @@ footer {
     font-weight: bold;
     font-size: 14px;
 
+}
+
+/* ========================================= RESPONSIVIDADE ========================================= */
+
+
+@media (max-width: 768px) {
+    .menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px 14px;
+        padding: 12px;
+    }
+
+    .menu a,
+    .link {
+        font-size: 1.35rem;
+        letter-spacing: 1px;
+        margin: 0;
+    }
+
+    .vitrine {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+        padding: 24px 16px;
+        gap: 16px;
+    }
+
+    .gangue,
+    .apresentacao {
+        height: auto;
+        min-height: 0;
+    }
+
+    .Arthur {
+        height: auto;
+        min-height: 0;
+        padding: 0;
+    }
+
+    .Arthur img {
+        display: block;
+        width: 100%;
+        max-width: 560px;
+        max-height: 45vh;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .h1 {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        letter-spacing: 4px;
+        overflow-wrap: anywhere;
+    }
+
+    .subtitulo {
+        width: 100%;
+        max-width: 600px;
+        font-size: 1rem;
+        margin: 12px 0 18px;
+    }
+
+    .baixo {
+        padding: 28px 0;
+    }
+
+    .bloco-balao {
+        width: calc(100% - 32px);
+        padding: 28px 22px;
+        border-radius: 28px;
+        font-size: 1rem;
+    }
+
+    .secao-perfil {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+        padding: 24px;
+        margin: 0 16px 24px;
+    }
+
+    .perfil-moldura {
+        width: min(100%, 350px);
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    .perfil-foto {
+        height: 100%;
+    }
+
+    .container-chat {
+        width: calc(100% - 32px);
+        height: 70vh;
+        min-height: 400px;
+        max-height: none;
+        margin: 16px auto;
+    }
+
+    #caixaChat {
+        padding: 14px;
+    }
+
+    #inputArea {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    #mensagem {
+        min-width: 0;
+    }
+
+    #btnEnviar {
+        padding: 0 14px;
+    }
+
+    .pagina-login,
+    .pagina-cadastro {
+        min-height: 100vh;
+        padding: 20px 16px;
+        box-sizing: border-box;
+    }
+
+    .pagina-login .login-container,
+    .pagina-cadastro .cadastro-container {
+        width: 100%;
+        max-width: 400px;
+        padding: 28px 24px;
+        box-sizing: border-box;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu {
+        gap: 6px 12px;
+        padding: 10px 8px;
+    }
+
+    .menu a,
+    .link {
+        font-size: 1.12rem;
+        letter-spacing: 0;
+    }
+
+    .h1 {
+        font-size: clamp(2rem, 10vw, 2.8rem);
+        letter-spacing: 2px;
+    }
+
+    .cima {
+        padding: 22px 14px;
+    }
+
+    .bloco-balao {
+        width: calc(100% - 24px);
+        padding: 22px 16px;
+        border-width: 2px;
+        font-size: 0.95rem;
+    }
+
+    .btn-principal {
+        width: min(100% - 32px, 250px);
+        padding: 12px 20px;
+    }
+
+    .secao-perfil {
+        padding: 18px;
+        margin: 0 12px 20px;
+        border-radius: 16px;
+    }
+
+    .perfil-texto p {
+        font-size: 1rem;
+    }
+
+    .titulo {
+        font-size: 1.65rem;
+        letter-spacing: 1px;
+    }
+
+    .foto-gangue {
+        height: 180px;
+    }
+
+    .foto-gangue1 {
+        height: auto;
+        max-height: 260px;
+    }
+
+    .container-chat {
+        width: calc(100% - 20px);
+        min-height: 380px;
+        height: 68vh;
+        border-width: 2px;
+    }
+
+    #boasVindas {
+        padding: 14px 10px;
+        font-size: 1.1rem;
+        overflow-wrap: anywhere;
+    }
+
+    .msg {
+        max-width: 90%;
+        font-size: 1rem;
+        padding: 10px 12px;
+    }
+
+    #inputArea {
+        padding: 8px;
+    }
+
+    #mensagem {
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    #btnEnviar {
+        padding: 0 11px;
+    }
+
+    .pagina-login .login-container,
+    .pagina-cadastro .cadastro-container {
+        padding: 24px 18px;
+    }
 }
